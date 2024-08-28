@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class Profile(models.Model):
     """
     Model for extending the default django user model.
-    Allows for custom user profiles with profile images
+    Allows for custom user profiles with profile images.
     """
     owner = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, blank=True)
