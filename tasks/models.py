@@ -10,29 +10,28 @@ STATUS = (
     (4, 'Backlog')
 )
 
-class Epic(models.Model):
+class Task(models.Model):
     """
-    Model for Epic creation.
+    Model for task creation.
     Lists tasks and assigned users.
     """
     title = models.CharField(max_length=255)
-    image = models.ImageField( 
-        upload_to='images/', default='../default_profile_bjwimv'
-    )
-    profile_list = models.ForeignKey(
-        Profile, on_delete=models.CASCADE, related_name='profile_list'
+    description = models.TextField(max_length=255)
+    assigned_to = models.ForeignKey(
+        Profile, on_delete=models.CASCADE, related_name='assignee'
         )
-    task_list = models.ForeignKey(
-        Task.assigned_to, on_delete=models.CASCADE, related_name='task_list'
-    )
     created_by = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='profile_list'
         )
     status = models.IntegerField(STATUS, default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    completion_date = models.DateField
 
     class Meta:
+        """
+        Ordering for epic based on time created
+        """
         ordering = ['-created_at']
 
     def __str__(self):

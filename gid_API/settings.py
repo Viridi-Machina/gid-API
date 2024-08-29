@@ -31,6 +31,8 @@ INSTALLED_APPS = [
 
     # Apps
     'profiles',
+    'epics',
+    'tasks',
 ]
 
 MIDDLEWARE = [
