@@ -17,6 +17,9 @@ class Profile(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     
     class Meta:
+        """
+        Order profiles based on time created
+        """
         ordering = ['-created_at']
 
     def __str__(self):

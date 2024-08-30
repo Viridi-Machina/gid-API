@@ -13,26 +13,29 @@ STATUS = (
 class Epic(models.Model):
     """
     Model for Epic creation.
-    Lists tasks and assigned users.
+    Relates to profile, user and task models.
     """
     title = models.CharField(max_length=255)
     image = models.ImageField( 
-        upload_to='images/', default='../default_profile_bjwimv'
+        upload_to='images/', default='../default_post_hu4wuf'
     )
     profile_list = models.ForeignKey(
         Profile, on_delete=models.CASCADE, related_name='profile_list'
         )
     task_list = models.ForeignKey(
-        Task.assigned_to, on_delete=models.CASCADE, related_name='task_list'
+        Task, on_delete=models.CASCADE, related_name='task_list'
     )
     created_by = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='profile_list'
+        User, on_delete=models.CASCADE
         )
     status = models.IntegerField(STATUS, default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
+        """
+        Ordering for epic based on time created
+        """
         ordering = ['-created_at']
 
     def __str__(self):
