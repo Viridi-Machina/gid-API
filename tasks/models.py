@@ -2,11 +2,17 @@ from django.db import models
 from django.contrib.auth.models import User
 from profiles.models import Profile
 
-STATUS = (
+STATUS_CHOICES = (
     (1, 'To-do'),
     (2, 'In Progress'),
     (3, 'Completed'),
     (4, 'Backlog')
+)
+
+PRIORITY_CHOICES = (
+    (1, 'LOW'),
+    (2, 'MEDIUM'),
+    (3, 'HIGH')
 )
 
 class Task(models.Model):
@@ -22,7 +28,8 @@ class Task(models.Model):
     created_by = models.ForeignKey(
         User, on_delete=models.CASCADE
         )
-    status = models.IntegerField(STATUS, default=1)
+    status = models.CharField(max_length=15, choices=STATUS_CHOICES, default=1)
+    priority = models.CharField(max_length=10, choices=PRIORITY_CHOICES, default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     completion_date = models.DateField(null=True)
