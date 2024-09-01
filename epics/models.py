@@ -58,7 +58,7 @@ class Task(models.Model):
         Epic, on_delete=models.CASCADE
         )
     title = models.CharField(max_length=255)
-    description = models.TextField(max_length=255)
+    description = models.TextField(max_length=255, blank=True, null=True)
     assigned_to = models.ForeignKey(
         Profile, on_delete=models.CASCADE, related_name='assignee'
         )
@@ -77,9 +77,9 @@ class Task(models.Model):
 
     class Meta:
         """
-        Ordering for task based on time created
+        Ordering for task based on epic, then time created
         """
-        ordering = ['-created_at']
+        ordering = ['-epic', '-created_at']
 
     def __str__(self):
-        return f'{self.title}'
+        return f'{self.epic}: {self.title}'
