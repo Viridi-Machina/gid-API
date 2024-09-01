@@ -28,11 +28,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'cloudinary',
     'rest_framework',
+    'django_extensions',
 
     # Apps
     'profiles',
     'epics',
-    'tasks',
 ]
 
 MIDDLEWARE = [
