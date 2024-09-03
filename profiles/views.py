@@ -21,6 +21,9 @@ class ProfileList(APIView):
     
 
 class ProfileDetail(APIView):
+    """
+    Retrieve or update a profile if you're the owner.
+    """
     serializer_class = ProfileSerializer
     permission_classes = [IsOwnerOrReadOnly]
     def get_object(self, pk):

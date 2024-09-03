@@ -55,10 +55,14 @@ class Task(models.Model):
     Relates to profile and user models.
     """
     epic = models.ForeignKey(
-        Epic, on_delete=models.CASCADE
+        Epic, on_delete=models.CASCADE, related_name='tasks'
         )
-    title = models.CharField(max_length=255)
-    description = models.TextField(max_length=255, blank=True, null=True)
+    title = models.CharField(
+        max_length=255
+        )
+    description = models.TextField(
+        max_length=255, blank=True, null=True
+        )
     assigned_to = models.ForeignKey(
         Profile, on_delete=models.CASCADE, related_name='assignee'
         )
