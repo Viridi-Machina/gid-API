@@ -10,10 +10,13 @@ class EpicSerializer(serializers.ModelSerializer):
     status = serializers.ChoiceField(STATUS_CHOICES, source='get_status_display')
     created_at = serializers.DateTimeField(format='%d/%m/%y', read_only=True)
     updated_at = serializers.DateTimeField(format='%d/%m/%y at %H:%M', read_only=True)
+    assigned_users = serializers.ReadOnlyField()
+    assigned_tasks = serializers.ReadOnlyField()
 
     class Meta:
         model = Epic
         fields = [
             'id', 'title', 'image', 'created_by',
-            'status', 'created_at', 'updated_at'
+            'status', 'created_at', 'updated_at',
+            'assigned_users', 'assigned_tasks' 
         ]

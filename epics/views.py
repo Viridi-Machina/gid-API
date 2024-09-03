@@ -1,4 +1,5 @@
-from rest_framework import generics, permissions
+from rest_framework import generics
+from django.db.models import Count
 
 from .models import Epic
 from .serializers import EpicSerializer
@@ -8,6 +9,9 @@ class EpicList(generics.ListCreateAPIView):
     """
     List Epics and create new Epic if logged in
     """
-    queryset = Epic.objects.all()
     serializer_class = EpicSerializer
     permission_classes = [IsOwnerOrReadOnly]
+    queryset = Epic.objects.annotate(
+        assigned_users=Count('task__assigned_to', distinct=True),
+        assigned_tasks=Count('task', distinct=True)
+    )
