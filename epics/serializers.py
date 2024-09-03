@@ -3,11 +3,17 @@ from .models import Epic
 
 
 class EpicSerializer(serializers.ModelSerializer):
-
+    """
+    Serializer for Epic list view
+    """
+    created_by = serializers.ReadOnlyField(source='created_by.username')
+    status = serializers.CharField(source='get_status_display')
+    created_at = serializers.DateTimeField(format='%d/%m/%y')
+    updated_at = serializers.DateTimeField(format='%d/%m/%y at %H:%M')
 
     class Meta:
         model = Epic
         fields = [
-            'id', 'title', 'image', 'profile_list', 'task_list', 'created_by'
+            'id', 'title', 'image', 'created_by',
             'status', 'created_at', 'updated_at'
         ]
