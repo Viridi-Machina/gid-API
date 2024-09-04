@@ -64,7 +64,7 @@ class Task(models.Model):
         max_length=255, blank=True, null=True
         )
     assigned_to = models.ForeignKey(
-        Profile, on_delete=models.CASCADE, related_name='assignee'
+        User, on_delete=models.CASCADE, related_name='assignee'
         )
     created_by = models.ForeignKey(
         User, on_delete=models.CASCADE

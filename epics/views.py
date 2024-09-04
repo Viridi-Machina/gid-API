@@ -1,8 +1,8 @@
 from rest_framework import generics, permissions
 from django.db.models import Count
 
-from .models import Epic
-from .serializers import EpicSerializer
+from .models import Epic, Task
+from .serializers import EpicSerializer, TaskSerializer
 
 # Epic views --------------------------------------------------------
 class EpicList(generics.ListCreateAPIView):
@@ -30,3 +30,19 @@ class EpicDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 # Task views --------------------------------------------------------
+class TaskList(generics.ListCreateAPIView):
+    """
+    List Tasks and create new task if logged in
+    """
+    serializer_class = TaskSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    queryset = Task.objects.all()
+
+
+class TaskDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    List Tasks and create new task if logged in
+    """
+    serializer_class = TaskSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    queryset = Task.objects.all()
