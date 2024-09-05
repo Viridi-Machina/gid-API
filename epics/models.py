@@ -24,12 +24,6 @@ class Epic(models.Model):
     image = models.ImageField( 
         upload_to='images/', default='../default_post_hu4wuf'
     )
-    # profile_list = models.ForeignKey(
-    #     Profile, on_delete=models.CASCADE, related_name='profile_list'
-    #     )
-    # task_list = models.ForeignKey(
-    #     Task, on_delete=models.CASCADE, related_name='task_list'
-    #     )
     created_by = models.ForeignKey(
         User, on_delete=models.CASCADE
         )
@@ -64,7 +58,7 @@ class Task(models.Model):
         max_length=255, blank=True, null=True
         )
     assigned_to = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='assignee'
+        Profile, on_delete=models.CASCADE, related_name='assignee'
         )
     created_by = models.ForeignKey(
         User, on_delete=models.CASCADE

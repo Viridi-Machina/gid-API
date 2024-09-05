@@ -1,6 +1,9 @@
 from rest_framework import serializers
 
-from .models import Epic, Task, STATUS_CHOICES, PRIORITY_CHOICES
+from .models import Epic, Task, Profile, STATUS_CHOICES, PRIORITY_CHOICES
+from profiles.serializers import ProfileSerializer
+
+# class AssigneeSerializer
 
 
 class EpicSerializer(serializers.ModelSerializer):
@@ -20,15 +23,17 @@ class EpicSerializer(serializers.ModelSerializer):
         format='%d/%m/%y at %H:%M', read_only=True
         )
     assigned_users = serializers.ReadOnlyField()
-    # assigned_to = serializers.PrimaryKeyRelatedField(
-    #     source=assigned_to, queryset=assigned_to.objects.all()
-    #     ) 
+    assignee = serializers.ReadOnlyField()
     assigned_tasks = serializers.ReadOnlyField()
     tasks = serializers.SlugRelatedField(
         many=True,
         read_only=True,
         slug_field='title'
      )
+    
+    # def get_assignee(self, obj):
+    #     assignee = obj.select_related('assigned_to__name')
+    #     return assignee
 
     class Meta:
         model = Epic

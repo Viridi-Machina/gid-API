@@ -8,6 +8,12 @@ class ProfileSerializer(serializers.ModelSerializer):
     """
     owner = serializers.ReadOnlyField(source='owner.username')
     is_owner = serializers.SerializerMethodField()
+    created_at = serializers.DateTimeField(
+        format='%d/%m/%y', read_only=True
+        )
+    updated_at = serializers.DateTimeField(
+        format='%d/%m/%y at %H:%M', read_only=True
+        )
 
     def get_is_owner(self, obj):
         request = self.context['request']

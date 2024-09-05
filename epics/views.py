@@ -27,6 +27,8 @@ class EpicDetail(generics.RetrieveUpdateDestroyAPIView):
         assigned_users=Count('tasks__assigned_to', distinct=True),
         assigned_tasks=Count('tasks')
     )
+    # def get_queryset(self):
+    #     return super().get_queryset()
 
 
 # Task views --------------------------------------------------------
