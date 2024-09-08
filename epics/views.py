@@ -4,10 +4,10 @@ from django.db.models import Count
 from .models import Epic, Task
 from .serializers import EpicSerializer, TaskSerializer
 
-# Epic views --------------------------------------------------------
+# Epic views --------------------------------------------------------|
 class EpicList(generics.ListCreateAPIView):
     """
-    List Epics and create new Epic if logged in
+    List Epics and create new Epic if logged in.
     """
     serializer_class = EpicSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -31,7 +31,7 @@ class EpicDetail(generics.RetrieveUpdateDestroyAPIView):
     #     return super().get_queryset()
 
 
-# Task views --------------------------------------------------------
+# Task views --------------------------------------------------------|
 class TaskList(generics.ListCreateAPIView):
     """
     List Tasks and create new task if logged in
@@ -48,3 +48,4 @@ class TaskDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TaskSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Task.objects.all()
+    

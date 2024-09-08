@@ -15,13 +15,14 @@ PRIORITY_CHOICES = (
     ('HGH', 'HIGH')
 )
 
+# Epic model --------------------------------------------------------|
 class Epic(models.Model):
     """
     Model for Epic creation.
     Relates to profile, user and task models.
     """
     title = models.CharField(max_length=255)
-    image = models.ImageField( 
+    image = models.ImageField(
         upload_to='images/', default='../default_post_hu4wuf'
     )
     created_by = models.ForeignKey(
@@ -41,8 +42,9 @@ class Epic(models.Model):
 
     def __str__(self):
         return f'{self.title}'
-    
 
+
+# Task model --------------------------------------------------------|
 class Task(models.Model):
     """
     Model for task creation.
@@ -75,9 +77,10 @@ class Task(models.Model):
 
     class Meta:
         """
-        Ordering for task based on epic, then time created
+        Ordering for task based on epic, then time created.
         """
         ordering = ['-epic', '-created_at']
 
     def __str__(self):
         return f'{self.epic}: {self.title}'
+    
