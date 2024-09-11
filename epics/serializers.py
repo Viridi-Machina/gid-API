@@ -31,11 +31,11 @@ class EpicSerializer(serializers.ModelSerializer):
         format='%d/%m/%y at %H:%M', read_only=True
         )
     assigned_users = serializers.ReadOnlyField()
-    # assignee = serializers.SlugRelatedField(
-    #     many=True,
-    #     read_only=True,
-    #     slug_field='assigned_to__name'
-    #  )
+    assignee = serializers.SlugRelatedField(
+        many=True,
+        read_only=True,
+        slug_field='assigned_to__name'
+     )
     assigned_tasks = serializers.ReadOnlyField()
     tasks = serializers.SlugRelatedField(
         many=True,
