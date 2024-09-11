@@ -25,10 +25,12 @@ class EpicDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Epic.objects.annotate(
         assigned_users=Count('tasks__assigned_to', distinct=True),
-        assigned_tasks=Count('tasks')
+        assigned_tasks=Count('tasks'),
+        # assignee = Task.objects.select_related('assigned_to')
     )
-    # def get_queryset(self):
-    #     return super().get_queryset()
+
+    
+    
 
 
 # Task views --------------------------------------------------------|
@@ -48,4 +50,3 @@ class TaskDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TaskSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Task.objects.all()
-    

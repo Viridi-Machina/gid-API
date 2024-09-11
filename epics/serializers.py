@@ -3,9 +3,17 @@ from rest_framework import serializers
 from .models import Epic, Task, Profile, STATUS_CHOICES, PRIORITY_CHOICES
 from profiles.serializers import ProfileSerializer
 
-# class AssigneeSerializer
+class AssigneeSerializer(serializers.ModelSerializer):
+    assigned_to = serializers.SlugRelatedField(
+        many=True,
+        read_only=True,
+        slug_field='title'
+     )
+    class Meta:
+        model = Task
+        fields = ['assigned_to']
 
-
+# Epic Serializer ---------------------------------------------------|
 class EpicSerializer(serializers.ModelSerializer):
     """
     Serializer for Epic list and detail views
@@ -23,16 +31,20 @@ class EpicSerializer(serializers.ModelSerializer):
         format='%d/%m/%y at %H:%M', read_only=True
         )
     assigned_users = serializers.ReadOnlyField()
-    assignee = serializers.ReadOnlyField()
+    # assignee = serializers.SlugRelatedField(
+    #     many=True,
+    #     read_only=True,
+    #     slug_field='assigned_to__name'
+    #  )
     assigned_tasks = serializers.ReadOnlyField()
     tasks = serializers.SlugRelatedField(
         many=True,
         read_only=True,
-        slug_field='title'
+        slug_field='assigned_to__name'
      )
     
     # def get_assignee(self, obj):
-    #     assignee = obj.select_related('assigned_to__name')
+    #     assignee = obj.assignee
     #     return assignee
 
     class Meta:
@@ -44,7 +56,7 @@ class EpicSerializer(serializers.ModelSerializer):
             'assigned_tasks', 'tasks'
         ]
 
-
+# Task Serializer ---------------------------------------------------|
 class TaskSerializer(serializers.ModelSerializer):
     """
     Serializer for Task
