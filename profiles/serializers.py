@@ -14,6 +14,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     updated_at = serializers.DateTimeField(
         format='%d/%m/%y at %H:%M', read_only=True
         )
+    assigned_tasks = serializers.ReadOnlyField()
 
     def get_is_owner(self, obj):
         request = self.context['request']
@@ -23,5 +24,5 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = [
             'id', 'owner', 'created_at', 'updated_at', 'name',
-            'title', 'image', 'is_owner'
+            'title', 'image', 'is_owner', 'assigned_tasks'
         ]

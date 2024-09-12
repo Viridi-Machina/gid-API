@@ -67,7 +67,7 @@ class TaskSerializer(serializers.ModelSerializer):
         source='created_by.username'
         )
     assigned_to = serializers.ReadOnlyField(
-        source='assigned_to.username'
+        source='assigned_to.name'
         )
     status = serializers.ChoiceField(
         STATUS_CHOICES, source='get_status_display'
