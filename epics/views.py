@@ -25,12 +25,8 @@ class EpicDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Epic.objects.annotate(
         assigned_users=Count('tasks__assigned_to', distinct=True),
-        assigned_tasks=Count('tasks'),
-        # assignee = Task.objects.select_related('assigned_to')
+        assigned_tasks=Count('tasks')
     )
-
-    
-    
 
 
 # Task views --------------------------------------------------------|
