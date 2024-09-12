@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
-from .models import Epic, Task, Profile, STATUS_CHOICES, PRIORITY_CHOICES
-from profiles.serializers import ProfileSerializer
+from .models import Epic, Task, STATUS_CHOICES, PRIORITY_CHOICES
 
 class AssigneeSerializer(serializers.ModelSerializer):
     assigned_to = serializers.SlugRelatedField(
@@ -40,7 +39,7 @@ class EpicSerializer(serializers.ModelSerializer):
      )
     
     # Method to find names of assigned and unique users to given tasks
-    def get_assignees(self,obj):
+    def get_assignees(self, obj):
         tasks = obj.tasks.all()
         assignees = []
         for task in tasks:
