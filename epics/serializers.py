@@ -2,16 +2,6 @@ from rest_framework import serializers
 
 from .models import Epic, Task, STATUS_CHOICES, PRIORITY_CHOICES
 
-class AssigneeSerializer(serializers.ModelSerializer):
-    assigned_to = serializers.SlugRelatedField(
-        many=True,
-        read_only=True,
-        slug_field='title'
-     )
-    class Meta:
-        model = Task
-        fields = ['assigned_to']
-
 # Epic Serializer ---------------------------------------------------|
 class EpicSerializer(serializers.ModelSerializer):
     """
@@ -21,7 +11,7 @@ class EpicSerializer(serializers.ModelSerializer):
         source='created_by.username'
         )
     is_creator = serializers.SerializerMethodField()
-    status = serializers.ChoiceField(
+    verbose_status = serializers.ChoiceField(
         STATUS_CHOICES, source='get_status_display'
         )
     created_at = serializers.DateTimeField(
@@ -73,7 +63,7 @@ class EpicSerializer(serializers.ModelSerializer):
         model = Epic
         fields = [
             'id', 'title', 'image', 'created_by', 'is_creator',
-            'status', 'created_at', 'updated_at',
+            'status', 'verbose_status', 'created_at', 'updated_at',
             'assigned_users', 'assignees','assigned_tasks',
             'tasks', 'is_completed'
         ]
