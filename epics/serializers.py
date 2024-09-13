@@ -62,18 +62,24 @@ class TaskSerializer(serializers.ModelSerializer):
     """
     Serializer for Task
     """
+    epic_title = serializers.ReadOnlyField(
+        source='epic.title'
+    )
     created_by = serializers.ReadOnlyField(
         source='created_by.username'
         )
-    assigned_to = serializers.ReadOnlyField(
+    is_creator = serializers.SerializerMethodField()
+    assignee = serializers.ReadOnlyField(
         source='assigned_to.name'
         )
-    status = serializers.ChoiceField(
-        STATUS_CHOICES, source='get_status_display'
+    verbose_status = serializers.ChoiceField(
+        STATUS_CHOICES, source='get_status_display',
+        read_only=True
         )
-    priority = serializers.ChoiceField(
-        PRIORITY_CHOICES, source='get_priority_display'
-    )
+    verbose_priority = serializers.ChoiceField(
+        PRIORITY_CHOICES, source='get_priority_display',
+        read_only=True
+        )
     created_at = serializers.DateTimeField(
         format='%d/%m/%y', read_only=True
         )
@@ -81,12 +87,18 @@ class TaskSerializer(serializers.ModelSerializer):
         format='%d/%m/%y at %H:%M', read_only=True
         )
     completion_date = serializers.DateField(
-        format='%d/%m/%y', read_only=True
+        format='%d/%m/%y'
         )
+
+    def get_is_creator(self, obj):
+        request = self.context['request']
+        return request.user == obj.created_by
+
     class Meta:
         model = Task
         fields = [
-            'id', 'title', 'description', 'assigned_to',
-            'created_by', 'status', 'priority', 
+            'id', 'epic', 'epic_title', 'title', 'description',
+            'assignee', 'assigned_to', 'created_by', 'is_creator',
+            'status', 'verbose_status', 'priority', 'verbose_priority',
             'created_at', 'updated_at', 'completion_date'
         ]

@@ -3,6 +3,7 @@ from django.db.models import Count
 
 from .models import Epic, Task
 from .serializers import EpicSerializer, TaskSerializer
+from gid_API.permissions import IsCreatorOrReadOnly
 
 # Epic views --------------------------------------------------------|
 class EpicList(generics.ListCreateAPIView):
@@ -22,7 +23,7 @@ class EpicDetail(generics.RetrieveUpdateDestroyAPIView):
     Retrieve or update/delete an Epic if you're the owner.
     """
     serializer_class = EpicSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [IsCreatorOrReadOnly]
     queryset = Epic.objects.annotate(
         assigned_users=Count('tasks__assigned_to', distinct=True),
         assigned_tasks=Count('tasks')
@@ -38,11 +39,15 @@ class TaskList(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Task.objects.all()
 
+    def perform_create(self, serializer):
+        serializer.save(created_by=self.request.user)
+
+
 
 class TaskDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     List Tasks and create new task if logged in
     """
     serializer_class = TaskSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [IsCreatorOrReadOnly]
     queryset = Task.objects.all()
