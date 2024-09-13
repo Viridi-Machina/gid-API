@@ -12,7 +12,7 @@ class EpicSerializer(serializers.ModelSerializer):
         )
     is_creator = serializers.SerializerMethodField()
     verbose_status = serializers.ChoiceField(
-        STATUS_CHOICES, source='get_status_display'
+        STATUS_CHOICES, source='get_status_display', read_only=True
         )
     created_at = serializers.DateTimeField(
         format='%d/%m/%y', read_only=True

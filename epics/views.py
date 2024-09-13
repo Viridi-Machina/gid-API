@@ -17,6 +17,9 @@ class EpicList(generics.ListCreateAPIView):
         assigned_tasks=Count('tasks')
     ).order_by('-assigned_tasks')
 
+    def perform_create(self, serializer):
+        serializer.save(created_by=self.request.user)
+
 
 class EpicDetail(generics.RetrieveUpdateDestroyAPIView):
     """
