@@ -1,4 +1,5 @@
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, filters
+from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models import Count
 
 from .models import Epic, Task
@@ -16,6 +17,24 @@ class EpicList(generics.ListCreateAPIView):
         assigned_users=Count('tasks__assigned_to', distinct=True),
         assigned_tasks=Count('tasks')
     ).order_by('-assigned_tasks')
+    filter_backends = [
+        filters.OrderingFilter,
+        filters.SearchFilter,
+        DjangoFilterBackend,
+    ]
+    filterset_fields = [
+        'created_by',
+        'status'
+    ]
+    search_fields = [
+        'title'
+    ]
+    ordering_fields = [
+        'created_by',       # By creator
+        'assigned_users',   # By total assignees
+        'assigned_tasks',   # By total tasks
+        'created_at',       # By time created
+    ]
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
@@ -41,6 +60,27 @@ class TaskList(generics.ListCreateAPIView):
     serializer_class = TaskSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Task.objects.all()
+    filter_backends = [
+        filters.OrderingFilter,
+        filters.SearchFilter,
+        DjangoFilterBackend,
+    ]
+    filterset_fields = [
+        'epic',
+        'created_by',
+        'status',
+        'priority'
+    ]
+    search_fields = [
+        'title'
+    ]
+    ordering_fields = [
+        'created_by',       # By creator
+        'assigned_to',      # By assignee
+        'created_at',       # By time created
+        'priority',         # By task priority
+        'updated_at'        # By recent activity
+    ]
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
