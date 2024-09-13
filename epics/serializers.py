@@ -15,11 +15,12 @@ class AssigneeSerializer(serializers.ModelSerializer):
 # Epic Serializer ---------------------------------------------------|
 class EpicSerializer(serializers.ModelSerializer):
     """
-    Serializer for Epic list and detail views
+    Serializer for Epic list and detail views.
     """
     created_by = serializers.ReadOnlyField(
         source='created_by.username'
         )
+    is_creator = serializers.SerializerMethodField()
     status = serializers.ChoiceField(
         STATUS_CHOICES, source='get_status_display'
         )
@@ -36,8 +37,28 @@ class EpicSerializer(serializers.ModelSerializer):
         many=True,
         read_only=True,
         slug_field='title'
-     )
-    
+        )
+    is_completed = serializers.SerializerMethodField()
+
+    # Method to return true if all tasks within an epic are complete
+    def get_is_completed(self, obj):
+        tasks = obj.tasks.all()
+        status = False
+        status_list = []
+        for task in tasks:
+            if task.status != 'COMP':
+                break
+            else:
+                status_list.append(task.status)
+            if len(status_list) == len(tasks):
+                status = True
+        return status
+
+
+    def get_is_creator(self, obj):
+        request = self.context['request']
+        return request.user == obj.created_by
+
     # Method to find names of assigned and unique users to given tasks
     def get_assignees(self, obj):
         tasks = obj.tasks.all()
@@ -51,20 +72,20 @@ class EpicSerializer(serializers.ModelSerializer):
     class Meta:
         model = Epic
         fields = [
-            'id', 'title', 'image', 'created_by',
+            'id', 'title', 'image', 'created_by', 'is_creator',
             'status', 'created_at', 'updated_at',
-            'assigned_users', 'assignees',
-            'assigned_tasks', 'tasks'
+            'assigned_users', 'assignees','assigned_tasks',
+            'tasks', 'is_completed'
         ]
 
 # Task Serializer ---------------------------------------------------|
 class TaskSerializer(serializers.ModelSerializer):
     """
-    Serializer for Task
+    Serializer for Task list and detail views.
     """
     epic_title = serializers.ReadOnlyField(
         source='epic.title'
-    )
+        )
     created_by = serializers.ReadOnlyField(
         source='created_by.username'
         )

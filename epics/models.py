@@ -15,7 +15,7 @@ PRIORITY_CHOICES = (
     ('HGH', 'HIGH')
 )
 
-# Epic model --------------------------------------------------------|
+# Epic model ----------------------------------------------------------------|
 class Epic(models.Model):
     """
     Model for Epic creation.
@@ -44,7 +44,7 @@ class Epic(models.Model):
         return f'{self.title}'
 
 
-# Task model --------------------------------------------------------|
+# Task model ----------------------------------------------------------------|
 class Task(models.Model):
     """
     Model for task creation.
