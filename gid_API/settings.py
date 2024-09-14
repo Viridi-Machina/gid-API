@@ -42,7 +42,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 DEBUG = 'DEV' in os.environ
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'gid-api-a5a5270599fa.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', os.environ.get('ALLOWED_HOST')]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
