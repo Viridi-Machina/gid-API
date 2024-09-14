@@ -33,7 +33,7 @@ JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
 JWT_AUTH_SAMESITE = 'None'
 
 REST_AUTH_SERIALIZERS = {
-    'USER_DETAILS_SERIALIZER': 'drf_api.serializers.CurrentUserSerializer'
+    'USER_DETAILS_SERIALIZER': 'gid_api.serializers.CurrentUserSerializer'
 }
 
 BASE_DIR = Path(__file__).resolve().parent.parent
