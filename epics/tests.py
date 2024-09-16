@@ -2,15 +2,15 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from django.contrib.auth.models import User
-from .models import Epic, Task
+from .models import Epic
 
 # Epic List View Testing ----------------------------------------------------|
 class EpicListViewTest(APITestCase):
     """
     List-view tests to confirm that:
-    [1] - A logged-in user can view the list of epics
+    [1] - A user can view the list of epics
     [2] - A logged-in user can create an epic
-    [3] - A user not logegd-in cannot create a post
+    [3] - A user not logged-in cannot create an epic
     """
     # Setup - created a user called tom
     def setUp(self):
@@ -103,8 +103,3 @@ class EpicDetailViewTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         response = self.client.put('/epics/1/')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-    
-# Task List View Testing ----------------------------------------------------|
-class TaskListViewTest(APITestCase)
-
-# Task Detail View Testing --------------------------------------------------|
