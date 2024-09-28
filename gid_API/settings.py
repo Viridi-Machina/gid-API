@@ -11,6 +11,8 @@ CLOUDINARY_STORAGE = {
 MEDIA_URL = '/media/'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [(
         'rest_framework.authentication.SessionAuthentication'
@@ -35,8 +37,6 @@ JWT_AUTH_SAMESITE = 'None'
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'gid_api.serializers.CurrentUserSerializer'
 }
-
-BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
@@ -87,11 +87,12 @@ MIDDLEWARE = [
 
 if 'CLIENT_ORIGIN' in os.environ:
     CORS_ALLOWED_ORIGINS = [
-        'http://gid-5c5b93ee9cb4.herokuapp.com'
+        os.environ.get('CLIENT_ORIGIN')
     ]
 else:
     CORS_ALLOWED_ORIGIN_REGEXES = [
-        'http://localhost:3000'
+        r"^http:\/\/localhost:*([0-9]+)?$",
+        r"^https:\/\/localhost:*([0-9]+)?$",
     ]
 
 CORS_ALLOW_CREDENTIALS = True
