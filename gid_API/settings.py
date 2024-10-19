@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+import re
 import dj_database_url
 
 if os.path.exists('env.py'):
@@ -42,7 +43,10 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 DEBUG = 'DEV' in os.environ
 
-ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOST'), '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    os.environ.get('ALLOWED_HOST'),
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -55,14 +59,12 @@ INSTALLED_APPS = [
     'cloudinary',
     'rest_framework',
     'django_filters',
-    'rest_framework.authtoken', 
-    'dj_rest_auth', 
-    'django_extensions',
-
-    'django.contrib.sites', 
-    'allauth', 
-    'allauth.account', 
-    'allauth.socialaccount', 
+    'rest_framework.authtoken',
+    'dj_rest_auth',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
     'dj_rest_auth.registration',
     'corsheaders',
 
@@ -82,18 +84,19 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'allauth.account.middleware.AccountMiddleware',
 ]
 
-if 'CLIENT_ORIGIN' in os.environ:
-    CORS_ALLOWED_ORIGINS = [
-        os.environ.get('CLIENT_ORIGIN')
-    ]
-else:
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        r"^http:\/\/localhost:*([0-9]+)?$",
-        r"^https:\/\/localhost:*([0-9]+)?$",
-    ]
+if "CLIENT_ORIGIN" in os.environ:
+    CORS_ALLOWED_ORIGINS = [os.environ.get("CLIENT_ORIGIN")]
+
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://.*\.codeinstitute-ide\.net$",
+    r"^https://.*\.gitpod\.io$",
+    r"^http:\/\/localhost:*([0-9]+)?$",
+    r"^https:\/\/localhost:*([0-9]+)?$",
+    r"^http:\/\/127.0.0.1:*([0-9]+)?$",
+    r"^https:\/\/127.0.0.1:*([0-9]+)?$"
+]
 
 CORS_ALLOW_CREDENTIALS = True
 
